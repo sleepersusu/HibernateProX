@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+		<property name="hibernate.connection.password">P@ssw0rd</property>
+		<property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=BistroDB;encrypt=true;trustServerCertificate=true</property>
+		<property name="hibernate.connection.username">watcher</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+		
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>
+		
+		<property name="hibernate.current_session_context_class">thread</property>		
+
+		<mapping class="bistro.bean.CampaignBean"/>	
+		<mapping class="bistro.bean.CampaignPrizesBean"/>				
+		<mapping class="bistro.bean.LotteryEntriesBean"/>				
+		<mapping class="bistro.bean.PointPrizesBean"/>	
+		<mapping class="bistro.bean.PointsRecordBean"/>	
+		<mapping class="bistro.bean.MembersBean"/>	
+		<mapping class="bistro.bean.MembersDetailBean"/>	
+		<mapping class="bistro.bean.SupplyOriBean"/>	
+		<mapping class="bistro.bean.SupplyBean"/>	
+		<mapping class="bistro.bean.EmployeeBean"/>	
+		<mapping class="bistro.bean.UsersBean"/>	
+		<mapping class="bistro.bean.Reservation"/>	
+		<mapping class="bistro.bean.Seat"/>	
+		<mapping class="bistro.bean.MenuBean"/>	
+		<mapping class="bistro.bean.OrdersBean"/>	
+		<mapping class="bistro.bean.OrderDetailsBean"/>	
+		
+	</session-factory>
+</hibernate-configuration> 
