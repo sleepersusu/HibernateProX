@@ -21,6 +21,11 @@
 			<version>12.8.1.jre11</version>
 		</dependency>
 
+		<dependency>
+			<groupId>HibernateTest</groupId>
+			<artifactId>HibernateTest</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
