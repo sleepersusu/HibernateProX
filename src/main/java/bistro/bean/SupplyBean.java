@@ -131,6 +131,13 @@ public class SupplyBean {
 		public void setCreated_at(Timestamp created_at) {
 			this.created_at = created_at;
 		}
+
+
+
+		public SupplyBean getSupplyBean() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
 		
 		
