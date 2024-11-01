@@ -169,9 +169,9 @@ body .modal .modal-content form textarea {
 							</thead>
 							<tbody id="event-list">
 								<%
-								LinkedList<MembersBean> memberList = (LinkedList<MembersBean>) request.getAttribute("MemberAll");//#tag
+								LinkedList<MemberBean> memberList = (LinkedList<MemberBean>) request.getAttribute("MemberAll");//#tag
 								if (memberList != null) {
-									for (MembersBean member : memberList) {//#tag
+									for (MemberBean member : memberList) {//#tag
 										String sex = null;
 										String favor = null;
 										if (member.getUserSex() == 0)
