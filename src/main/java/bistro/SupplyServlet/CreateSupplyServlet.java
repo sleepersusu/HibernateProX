@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -36,6 +37,7 @@ public class CreateSupplyServlet extends HttpServlet {
         supply.setSupplyProduct(supplyProduct);
         supply.setSupplyCount(supplyCount);
         supply.setSupplyPrice(supplyPrice);
+        supply.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         // 獲取 Hibernate Session
         SessionFactory factory = HibernateUtil.getSessionFactory();

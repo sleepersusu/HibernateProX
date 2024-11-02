@@ -20,20 +20,20 @@ public class ShowAllReadSupplyServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 获取 Hibernate Session
+        //  Hibernate Session
         SessionFactory factory = HibernateUtil.getSessionFactory();
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         
-        // 创建服务实例
+        // 創建實例
         SupplyService supplyService = new SupplyService(session);
         
-        // 获取所有供货单
+        // get all 所有供貨單
         List<SupplyBean> allSupplies = supplyService.findAllSupplies();
         
-        // 将供货单信息设置到请求属性中
+        //將供貨單訊息填入
         request.setAttribute("allSupplies", allSupplies);
         
-        // 转发到 JSP 页面以显示供货单
+        
         request.getRequestDispatcher("SupplyAll.jsp").forward(request, response);
     }
 }

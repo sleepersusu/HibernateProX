@@ -163,12 +163,12 @@ body .modal .modal-content form textarea {
 								                id="edit"
 								                onclick='openEditModal({
 								                    supplyId: "${item.supplyId}", 
-								                    supplyOriId: "${ori.supplyOriId}", 
-								                    supplyName: "${ori.supplyOriName}", 
+								                    supplyOriId: "${item.supplyOriBean.supplyOriId}", 
+								                    supplyName: "${item.supplyOriBean.supplyOriName}", 
 								                    supplyProduct: "${item.supplyProduct}",
 								                    supplyCount: "${item.supplyCount}",
 								                    supplyPrice: "${item.supplyPrice}",
-								                    employeeId: "${emp.employeeId}" 
+								                    employeeId: "${item.employeeBean.employeeId}" 
 								                })'>編輯</button>
 								            <form 
 								                action="DeleteSupplyServlet.do" 
@@ -306,7 +306,7 @@ body .modal .modal-content form textarea {
 					<h1>編輯供應商</h1>
 					
 					<form 
-						action="UpdateSupplyServlet.do" 
+						action="${pageContext.request.contextPath}/UpdateSupplyServlet.do"
 						method="post"
 						id="dataForm">
 						
@@ -321,15 +321,15 @@ body .modal .modal-content form textarea {
 								type="hidden" 
 								name="supplyId" 
 								id="supplyId" 
-								value="">
+								value="${item.supplyId}">
 								
 								
 							<div class="question">
 								<span class="title">廠商編號</span> 
 								<input 
-									type="text" 
+									type="number" 
 									id="supplyOriId"
-									name="supplyOri_id" 
+									name="supplyOriId" 
 									value="" 
 									placeholder="請輸入廠商編號" 
 									required
@@ -341,7 +341,7 @@ body .modal .modal-content form textarea {
 								<input 
 									type="text" 
 									id="supplyProduct"
-									name="supply_product" 
+									name="supplyProduct" 
 									value="" 
 									placeholder="請輸入產品名稱" 
 									required
@@ -351,9 +351,9 @@ body .modal .modal-content form textarea {
 							<div class="question">
 								<span class="title">產品數量</span> 
 								<input 
-									type="text" 
+									type="number" 
 									id="supplyCount"
-									name="supply_count" 
+									name="supplyCount" 
 									value="" 
 									placeholder="請輸入產品數量" 
 									required
@@ -363,9 +363,9 @@ body .modal .modal-content form textarea {
 							<div class="question">
 								<span class="title">產品價錢</span> 
 								<input 
-									type="text" 
+									type="number" 
 									id="supplyPrice"
-									name="supply_price" 
+									name="supplyPrice" 
 									value="" 
 									placeholder="請輸入產品價錢" 
 									required
@@ -375,9 +375,9 @@ body .modal .modal-content form textarea {
 							<div class="question">
 								<span class="title">經手人</span> 
 								<input 
-									type="text" 
+									type="number" 
 									id="employeeId"
-									name="employee_id" 
+									name="employeeId" 
 									value="" 
 									placeholder="請輸入員工編號" 
 									required
