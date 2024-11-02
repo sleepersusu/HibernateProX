@@ -52,7 +52,7 @@ public class CreateOrderDetailsServlet extends HttpServlet {
 //		String customerName = request.getParameter("customerName");
 //		Integer seat = Integer.parseInt(request.getParameter("seat"));
 //		String orderStatus = request.getParameter("orderStatus");
-		String specialRequests = request.getParameter("specialRequests");
+		String specialRequest = request.getParameter("specialRequest");
 		String createdAt = request.getParameter("createdAt");
 	
 		
@@ -65,6 +65,8 @@ public class CreateOrderDetailsServlet extends HttpServlet {
 		Session session = factory.getCurrentSession();
 		
 		OrderDetailsService service = new OrderDetailsService(session);
+		
+		
 		OrderDetailsBean bean = new OrderDetailsBean();
 		
 		OrdersBean ordersBean = new OrdersBean();
@@ -80,15 +82,15 @@ public class CreateOrderDetailsServlet extends HttpServlet {
 		bean.setOrders(ordersBean);
 		bean.setProduct(menuBean);
 		
-		bean.getOrders().getOrdersId();
 		
+		bean.getOrders().getOrdersId();
 		bean.setProduct_quantity(productQuantity);
 		bean.setTotal_quantity (totaltQuantity);
 		bean.setTotal_price(totalPrice);
 //		bean.getOrders().setCustomerName(customerName);
 //		bean.getOrders().setSeatId(seat);
 //		bean.getOrders().setOrderStatus(orderStatus);
-		bean.setSpecial_requests(specialRequests);
+		bean.setSpecial_requests(specialRequest);
 		bean.setCreated_at(timestamp);
 		
 		 boolean isCreate = service.createOrderDetails(bean);

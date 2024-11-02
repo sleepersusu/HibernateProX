@@ -171,6 +171,7 @@ body .modal .modal-content form textarea {
 									<th>座位號碼</th>
 									<th>訂單狀況</th>
 									<th>特殊備註</th>
+									<th>建立時間</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -183,7 +184,7 @@ body .modal .modal-content form textarea {
 								<tr>
 									<td><%=detail.getOrderDetails_id()%></td>
 									<td><%=detail.getOrders().getOrdersId()%></td>
-									<td><%=detail.getProduct().getProductName()%></td>
+									<td><%=detail.getProduct().getMenuid()%></td>
 									<td><%=detail.getProduct().getProductName()%></td>
 									<td><%=detail.getProduct().getProductPrice()%></td>
 									<td><%=detail.getProduct_quantity()%></td>
@@ -192,16 +193,21 @@ body .modal .modal-content form textarea {
 									<td><%=detail.getOrders().getSeatId()%></td>
 									<td><%=detail.getOrders().getOrderStatus()%></td>
 									<td><%=detail.getSpecial_requests()%></td>
+									<td><%=detail.getCreated_at()%></td>
 									<td>
 										<button type="button" id="edit"
 											onclick='openEditModal({
 									           orderDetails_id:"<%=detail.getOrderDetails_id()%>",
-												orders:"<%=detail.getOrders()%>",
-									            product: "<%=detail.getProduct()%>",
-									            product_quantity: "<%=detail.getProduct_quantity()%>",
-									            total_quantity: "<%=detail.getTotal_quantity()%>",
-									            total_price: "<%=detail.getTotal_price()%>",
-									            special_requests: "<%=detail.getSpecial_requests()%>",
+												orders:"<%=detail.getOrders().getOrdersId()%>",
+									            productid: "<%=detail.getProduct().getMenuid()%>",
+									            productName:"<%=detail.getProduct().getProductName()%>",
+									            
+									            
+									            productQuantity: "<%=detail.getProduct_quantity()%>",
+									            totalQuantity: "<%=detail.getTotal_quantity()%>",
+									            totalPrice: "<%=detail.getTotal_price()%>",
+									            specialRequest: "<%=detail.getSpecial_requests()%>",
+									            createdAt: "<%=detail.getCreated_at()%>",
 									        })'>編輯</button>
 
 										<form action="DeleteOrderDetailsServlet.do" method="post"
@@ -314,8 +320,8 @@ body .modal .modal-content form textarea {
 							</div>
 							
 							<div class="question">
-								<label for="createdAt2" class="title">建立時間</label> <input
-									type="datetime-local" name="createdAt" id="createdAt2" value=""
+								<label for="createdAt" class="title">建立時間</label> <input
+									type="datetime-local" name="createdAt" id="createdAt" value=""
 									required step=60>
 							</div>
 						</fieldset>
@@ -398,7 +404,7 @@ body .modal .modal-content form textarea {
 							</div>
 
 							<div class="question">
-								<span class="title">總數量</span> <input type="number"
+								<span class="title">總數量</span> <input type="hidden"
 									id="totalQuantity2" name="totalQuantity" value="" required
 									aria-required="true" readonly />
 							</div>
@@ -474,18 +480,7 @@ body .modal .modal-content form textarea {
 	      
 	      
 	      
-	      //--------------------------------顯示編輯表單預設值----------------------------------------------//
-	      function openEditModal(orderDetails) {
-		    	document.getElementById("addEventModal2").style.display = "block";
-		    	
-		    	document.getElementById("order2").value = orderDetails.orders;
-	    	    document.getElementById("menuId").value = orderDetails.menuId;
-	    	    document.getElementById("productQuantity").value = orderDetails.productQuantity;
-	    	    document.getElementById("totalQuantity").value = orderDetails.totalQuantity;
-	    	    document.getElementById("totalPrice").value = orderDetails.totalPrice;
-	    	    document.getElementById("specialRequest").value = orderDetails.specialRequest;
-		      }
-	      //--------------------------------顯示編輯表單預設值----------------------------------------------//
+	     
 	      
 
 	      //--------------------------------新增表單----------------------------------------------//
@@ -519,7 +514,7 @@ body .modal .modal-content form textarea {
 	              if (!isNaN(price) && !isNaN(quantity)&&test) {
 	                  totalPrice.value = (price*quantity);
 	              } else {
-	                  totalPriceInput.value = "";
+	                  totalPrice.value = "";
 	              }
 
 	          }
@@ -558,11 +553,31 @@ body .modal .modal-content form textarea {
 		              if (!isNaN(price) && !isNaN(quantity)&&test) {
 		                  totalPrice.value = (price*quantity);
 		              } else {
-		                  totalPriceInput.value = "";
+		                  totalPrice.value = "";
 		              }
 
 		          }
 		          //--------------------------------編輯表單----------------------------------------------//
+		          
+		          
+		          
+		           //--------------------------------顯示編輯表單預設值----------------------------------------------//
+	      function openEditModal(orderDetails) {
+		    	document.getElementById("addEventModal2").style.display = "block";
+		    	document.getElementById("orders2").value = orderDetails.orders;
+		    	
+		    	
+	    	    document.getElementById("productid2").value = orderDetails.productid;
+	    	    
+	    	    document.getElementById("productid2").dispatchEvent(new Event('change'));
+
+	    	    document.getElementById("productQuantity2").value = orderDetails.productQuantity;
+	    	    document.getElementById("totalQuantity2").value = orderDetails.totalQuantity;
+	    	    document.getElementById("totalPrice2").value = orderDetails.totalPrice;
+	    	    document.getElementById("specialRequest2").value = orderDetails.specialRequest;
+	    	    document.getElementById("createdAt2").value = orderDetails.crearedAt;
+		      }
+	      //--------------------------------顯示編輯表單預設值----------------------------------------------//
       
 	</script>
 </body>
