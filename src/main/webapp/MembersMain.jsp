@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="bistro.bean.MembersBean"%>
+<%@ page import="bistro.bean.MembersDetailBean"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -130,10 +131,13 @@ body .modal .modal-content form textarea {
 
 
 	<div id="page">
-		<%@ include file="nav.jsp" %>
+		<%@ include file="nav.jsp"%>
 		<div id="right">
 			<header>
-				<button id="logout"><a href="login.jsp"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</a></button>
+				<button id="logout">
+					<a href="login.jsp"><i
+						class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</a>
+				</button>
 			</header>
 
 			<main>
@@ -169,59 +173,51 @@ body .modal .modal-content form textarea {
 							</thead>
 							<tbody id="event-list">
 								<%
-								LinkedList<MemberBean> memberList = (LinkedList<MemberBean>) request.getAttribute("MemberAll");//#tag
+								List<MembersBean> memberList = (List<MembersBean>) request.getAttribute("allMembers");
 								if (memberList != null) {
-									for (MemberBean member : memberList) {//#tag
-										String sex = null;
-										String favor = null;
-										if (member.getUserSex() == 0)
-									sex = "女";
-										else if (member.getUserSex() == 1)
-									sex = "男";
-										if (member.getUserFavor() == 0)
-									favor = "內向";
-										else if (member.getUserFavor() == 1)
-									favor = "外向";
+									for (MembersBean member : memberList) {
+										MembersDetailBean membersDetail = member.getMembersDetailBean();
 										String userimg = "";
-										if (member.getUserImg() != null) {
-									String base64Img = Base64.getEncoder().encodeToString(member.getUserImg());
+										if (membersDetail.getMembersD_img() != null) {
+									String base64Img = Base64.getEncoder().encodeToString(membersDetail.getMembersD_img());
 									userimg = "data:image/jpeg;base64," + base64Img;
 										}
 								%>
 								<tr>
-									<td><%=member.getUserId()%></td>
-									<td><%=member.getUserAccount()%></td>
-									<td><%=member.getUserPwd()%></td>
-									<td id="tdtype"><%=member.getUserName()%></td>
-									<td id="tdtype" style="color: <%= member.getUserSex() == 1 ? "#0072E3" : "red" %>;">
-									    <%=sex%>
+									<td><%=member.getMembers_id()%></td>
+									<td><%=member.getMember_account()%></td>
+									<td><%=member.getMember_password()%></td>
+									<td id="tdtype"><%=membersDetail.getMembersD_name()%></td>
+									<td id="tdtype"
+										style="color: <%=membersDetail.getMembersD_sex() == 1 ? "#0072E3" : "red"%>;">
+										<%=membersDetail.getUserSexStr()%>
 									</td>
-									<td id="tdtype"><%=member.getUserBirthday()%></td>
-									<td id="tdtype"><%=favor%></td>
-									<td id="tdtype"><%=member.getUserAddress()%></td>
-									<td id="tdtype"><%=member.getUserPhone()%></td>
-									<td id="tdtype"><%=member.getUserEmail()%></td>
+									<td id="tdtype"><%=membersDetail.getMembersD_birthday()%></td>
+									<td id="tdtype"><%=membersDetail.getUserFavorStr()%></td>
+									<td id="tdtype"><%=membersDetail.getMembersD_address()%></td>
+									<td id="tdtype"><%=membersDetail.getMembersD_phone()%></td>
+									<td id="tdtype"><%=membersDetail.getMembersD_email()%></td>
 									<td><img src="<%=userimg%>" alt="N/A" /></td>
 									<td>
 										<button type="button" id="edit"
 											onclick='openEditModal({
-									            userid: "<%=member.getUserId()%>",
-									            useraccount: "<%=member.getUserAccount()%>",
-									            userpwd: "<%=member.getUserPwd()%>",
-									            username: "<%=member.getUserName()%>",
-									            usersex: "<%=member.getUserSex()%>",
-									            userbirthday: "<%=member.getUserBirthday()%>",
-									            userfavor: "<%=member.getUserFavor()%>",
-									            useraddress: "<%=member.getUserAddress()%>",
-									            userphone: "<%=member.getUserPhone()%>",
-									            useremail: "<%=member.getUserEmail()%>",
-									            userimg: "<%=member.getUserImg()%>",
+									            userid: "<%=member.getMembers_id()%>",
+									            useraccount: "<%=member.getMember_account()%>",
+									            userpwd: "<%=member.getMember_password()%>",
+									            username: "<%=membersDetail.getMembersD_name()%>",
+									            usersex: "<%=membersDetail.getMembersD_sex()%>",
+									            userbirthday: "<%=membersDetail.getMembersD_birthday()%>",
+									            userfavor: "<%=membersDetail.getMembersD_favor()%>",
+									            useraddress: "<%=membersDetail.getMembersD_address()%>",
+									            userphone: "<%=membersDetail.getMembersD_phone()%>",
+									            useremail: "<%=membersDetail.getMembersD_email()%>",
+									            userimg: "<%=membersDetail.getMembersD_img()%>",
 									        })'>編輯</button>
 
-										<form action="MemberDeleteServlet.do" method="post"
+										<form action="DeleteMembersServlet.do" method="post"
 											style="display: inline;">
 											<input type="hidden" name="userid"
-												value="<%=member.getUserId()%>">
+												value="<%=member.getMembers_id()%>">
 											<button type="submit" id="delete"
 												onclick="return confirm('確定要刪除嗎？');">刪除</button>
 										</form>
@@ -248,16 +244,16 @@ body .modal .modal-content form textarea {
 				<div class="modal-content">
 					<span class="close">&times;</span>
 					<h1>新增會員</h1>
-					<form action="MemberCreateServlet.do" method="post" id="dataForm"
+					<form action="CreateMembersServlet.do" method="post" id="dataForm"
 						enctype="multipart/form-data">
 						<fieldset>
 							<legend style="margin-bottom: 1rem; font-weight: bold">
 								會員基本資料 </legend>
 
 							<div class="question">
-								<span class="title">會員帳號</span> <input type="text"
-									id="useraccount" name="useraccount" value=""
-									placeholder="請輸入會員帳號" required aria-required="true" />
+								<span class="title">會員帳號</span> <input type="text" id="useraccount"
+									name="useraccount" value="" placeholder="請輸入會員帳號" required
+									aria-required="true" />
 							</div>
 							<div class="question">
 								<span class="title">會員密碼</span> <input type="text" id="userpwd"
@@ -341,7 +337,7 @@ body .modal .modal-content form textarea {
 				<div class="modal-content">
 					<span class="close">&times;</span>
 					<h1>編輯會員</h1>
-					<form action="MemberUpdateServlet.do" method="post" id="dataForm"
+					<form action="UpdateMembersServlet.do" method="post" id="dataForm"
 						enctype="multipart/form-data">
 						<fieldset>
 							<legend style="margin-bottom: 1rem; font-weight: bold">
@@ -441,7 +437,19 @@ body .modal .modal-content form textarea {
 		// jquery寫法 start
 		$("#table").DataTable({
 			scrollX : "90%",
-			scrollY : "500px"
+			scrollY : "500px",
+	        "columnDefs": [
+	            {"width": "25px","targets": 0},
+	            {"width": "75px","targets": 1},
+	            {"width": "75px","targets": 2},
+	            {"width": "60px","targets": 3},
+	            {"width": "40px","targets": 4},
+	            {"width": "70px","targets": 5},
+	            {"width": "40px","targets": 6},
+	            {"width": "70px","targets": 8},
+	            {"width": "70px","targets": 10},
+	            {"width": "50px","targets": 11},
+	        ]
 		})
 		
 	    
@@ -501,7 +509,7 @@ body .modal .modal-content form textarea {
 	    	    }
 
 	    </script>
-	      
+
 
 </body>
 </html>

@@ -66,9 +66,5 @@ public class MembersBean {
 	public void setMembersDetailBean(MembersDetailBean membersDetailBean) {
 		MembersDetailBean = membersDetailBean;
 	}
-
-
-
-
 	
 }
