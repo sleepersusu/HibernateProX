@@ -7,9 +7,7 @@ import org.hibernate.SessionFactory;
 
 import bistro.bean.CampaignBean;
 import bistro.bean.CampaignPrizesBean;
-import bistro.bean.SupplyBean;
 import bistro.service.CampaignPrizesService;
-import bistro.service.SupplyService;
 import bistro.util.HibernateUtil;
 
 public class ServiceActionTest {

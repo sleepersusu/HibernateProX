@@ -5,6 +5,7 @@
 <%@ page import="bistro.bean.SupplyOriBean"%>
 <%@ page import="bistro.bean.EmployeeBean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -143,47 +144,62 @@ body .modal .modal-content form textarea {
 								</tr>
 							</thead>
 							<tbody id="event-list">
-								<c:forEach var="item" items="${supplyList}">
-					                <tr>
-					                   
-					                    <td>${item.supplyId}</td>
-					                    <td>${item.supplyName}</td>
+							
+								<c:forEach var="item" items="${allSupply}">
+    							<tr>
+							        <td>${item.supplyId}</td>
+							        <td>
+							            <c:choose>
+							                <c:when test="${not empty item.supplyOriBean}">
+							                    <c:forEach var="ori" items="${item.supplyOriBean}">
+							                        ${ori.supplyOriName}<br />
+							                    </c:forEach>
+							                </c:when>
+							                <c:otherwise>
+							                    <span>没有供應商</span>
+							                </c:otherwise>
+							            </c:choose>
+							        </td>
 					                    <td>${item.supplyProduct}</td>
-					                    <td>${item.supplyCount}</td>
-					                    <td>${item.supplyPrice}</td>
-					                    <td>${item.employeeName}</td>
-					                    <td>${item.created_at}</td>
-					                    <td>
-					                    <button 
+								        <td>${item.supplyCount}</td>
+								        <td>${item.supplyPrice}</td>
+								        <td>
+								            <c:forEach var="emp" items="${item.employeeBean}">
+								                ${emp.employeeName} 
+								            </c:forEach>
+								        </td>
+								        <td>${item.createdAt}</td>
+								        <td>
+								            <button 
 					                    	type="button" 
-					                    	id="edit"
-											onclick='openEditModal({
-									            supplyId: "${item.supplyId}",
-									            supplyOriId:"${item.supplyOri_id}",
-									            supplyName: "${item.supplyName}",
-									            supplyProduct: "${item.supplyProduct}",
-									            supplyCount: "${item.supplyCount}",
-									            supplyPrice: "${item.supplyPrice}",
-									            employeeId: "${item.employeeId}"
-
-									          
-									        })'>編輯</button>
-					                    	<form 
-					                    		action="DeleteSupplyServlet.do" 
-					                    		method="post"
-												style="display: inline;">
-													<input 
-														type="hidden" 
-														name="Supply_id"
-														value="${item.supplyId}"/>
-													<button 
-														type="submit" 
-														id="delete"
-														onclick="return confirm('確定要刪除嗎？');">
-														刪除
-													</button>
+								                id="edit"
+								                onclick='openEditModal({
+								                    supplyId: "${item.supplyId}", 
+								                    supplyOriId: "${ori.supplyOriId}", 
+								                    supplyName: "${ori.supplyOriName}", 
+								                    supplyProduct: "${item.supplyProduct}",
+								                    supplyCount: "${item.supplyCount}",
+								                    supplyPrice: "${item.supplyPrice}",
+								                    employeeId: "${emp.employeeId}" 
+								                })'>編輯</button>
+								            <form 
+								                action="DeleteSupplyServlet.do" 
+								                method="post"
+								                style="display: inline;">
+								                <input 
+								                    type="hidden" 
+								                    name="supplyId"
+								                    value="${item.supplyId}"
+								                />
+								                
+								                <button 
+								                    type="submit" 
+								                    id="delete"
+								                    onclick="return confirm('確定要刪除嗎？');">
+								                    刪除
+												</button>
+												
 											</form>
-					                    
 					                    </td>
 					                </tr>
 					            </c:forEach>
@@ -220,7 +236,7 @@ body .modal .modal-content form textarea {
 								<input 
 									type="text" 
 									id=""
-									name="supplyOri_id" 
+									name="supplyId" 
 									value="" 
 									placeholder="請輸入廠商編號" 
 									required
@@ -232,7 +248,7 @@ body .modal .modal-content form textarea {
 								<input 
 									type="text" 
 									id=""
-									name="supply_product" 
+									name="supplyProduct" 
 									value="" 
 									placeholder="請輸入產品名稱" 
 									required
@@ -244,7 +260,7 @@ body .modal .modal-content form textarea {
 								<input 
 									type="text" 
 									id=""
-									name="supply_count" 
+									name="supplyCount" 
 									value="" 
 									placeholder="請輸入產品數量" 
 									required
@@ -256,7 +272,7 @@ body .modal .modal-content form textarea {
 								<input 
 									type="text" 
 									id=""
-									name="supply_price" 
+									name="supplyPrice" 
 									value="" 
 									placeholder="請輸入產品價錢" 
 									required
@@ -268,7 +284,7 @@ body .modal .modal-content form textarea {
 								<input 
 									type="text" 
 									id=""
-									name="employee_id" 
+									name="employeeId" 
 									value="" 
 									placeholder="請輸入員工編號" 
 									required

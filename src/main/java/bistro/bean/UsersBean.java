@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity @Table(name = "Users")
@@ -15,6 +16,9 @@ public class UsersBean {
 	private String users_account;
 	private String users_password;
 	private Timestamp created_at;
+	
+	 @OneToOne(mappedBy = "user") // 反向映射到 Employee 中的 user 属性
+	    private EmployeeBean employee;
 
 	public UsersBean() {
 	}
@@ -51,6 +55,15 @@ public class UsersBean {
 		this.created_at = created_at;
 	}
 
+	public EmployeeBean getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(EmployeeBean employee) {
+		this.employee = employee;
+	}
+
+	
 	
 
 

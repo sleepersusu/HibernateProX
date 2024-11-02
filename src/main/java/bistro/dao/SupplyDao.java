@@ -1,6 +1,5 @@
 package bistro.dao;
 
-import bistro.bean.CampaignBean;
 import bistro.bean.SupplyBean;
 
 import java.util.List;
@@ -44,7 +43,12 @@ public class SupplyDao{
 	}
 
 	
-
+	public List<SupplyBean> findAllSupplyWithDetails() {
+	    return session.createQuery("select distinct s from SupplyBean s " +
+	                                "left join fetch s.supplyOriBean " +
+	                                "left join fetch s.employeeBean", SupplyBean.class)
+	                                .getResultList();
+	}
 	
 
 

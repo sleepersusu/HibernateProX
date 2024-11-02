@@ -8,99 +8,92 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import bistro.bean.CampaignPrizesBean;
+import bistro.bean.EmployeeBean;
 import bistro.bean.SupplyBean;
+import bistro.bean.SupplyOriBean;
+import bistro.service.SupplyService;
+import bistro.util.HibernateUtil;
 
 
 @WebServlet("/CreateSupplyServlet.do")
 public class CreateSupplyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			processAction(request, response);
-		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			processAction(request, response);
-		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private void processAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException, SQLException {
-	
-		response.setContentType("text/html;charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		
-		String supplyOri_id = request.getParameter("supplyOri_id");
-	    String supplyProduct = request.getParameter("supply_product");
-	    String supplyCountStr = request.getParameter("supply_count");
-	    String supplyPriceStr = request.getParameter("supply_price");
-	    String employeeIdStr = request.getParameter("employee_id");
+        SessionFactory factory = HibernateUtil.getSessionFactory();
+        Session session = null;
+        SupplyService service = null;
 
-	    // Debug: Print all received parameters to check their values
-	    System.out.println("Received Parameters:");
-	    System.out.println("supply_name: " + supplyOri_id);
-	    System.out.println("supply_product: " + supplyProduct);
-	    System.out.println("supply_count: " + supplyCountStr);
-	    System.out.println("supply_price: " + supplyPriceStr);
-	    System.out.println("employee_id: " + employeeIdStr);
+        try {
+            session = factory.openSession();
+            service = new SupplyService(session);
+            session.beginTransaction();
 
-	    // Check if parameters are non-null and non-empty
-	    if (supplyOri_id == null || supplyOri_id.trim().isEmpty() ||
-	        supplyProduct == null || supplyProduct.trim().isEmpty() ||
-	        supplyCountStr == null || supplyCountStr.trim().isEmpty() ||
-	        supplyPriceStr == null || supplyPriceStr.trim().isEmpty() ||
-	        employeeIdStr == null || employeeIdStr.trim().isEmpty()) {
-	        
-	       // out.println("Missing required parameters.");
-	        return;
-	    }
+            SupplyBean supply = new SupplyBean();
+            String supplyProduct = request.getParameter("supply_product");
+            String supplyCountStr = request.getParameter("supply_count");
+            String supplyPriceStr = request.getParameter("supply_price");
+            String supplyOriIdStr = request.getParameter("supplyOri_id");
+            String employeeIdStr = request.getParameter("employee_id");
 
-	    try {
-	    	int supplyOriId = Integer.parseInt(supplyOri_id);
-	        int supplyCount = Integer.parseInt(supplyCountStr);
-	        int supplyPrice = Integer.parseInt(supplyPriceStr);
-	        int employeeId = Integer.parseInt(employeeIdStr);
-	        
-	        SupplyDaoImpl newDaoImple = new SupplyDaoImpl();
-	        SupplyBean bean = new SupplyBean();
-	        bean.setSupplyOri_id(supplyOriId);
-	        bean.setSupplyProduct(supplyProduct);
-	        bean.setSupplyCount(supplyCount);
-	        bean.setSupplyPrice(supplyPrice);
-	        bean.setEmployeeId(employeeId);
-	        
-	        boolean supply = newDaoImple.create(bean);
-	        
-	        if (supply) {
-	            // Ensure that the response is redirected and no further output is executed
-	            response.sendRedirect(request.getContextPath() + "/ShowAllReadSupplyServlet.do");
-	        	//out.write("sucess");
-	            return; // Make sure the method exits after redirection
-	        } else {
-	            out.println("Creation failed.");
-	        }
-	        
-	    } catch (NumberFormatException e) {
-	        out.println("Invalid input: supply count, supply price, and employee ID must be numbers.");
-	    } finally {
-	        out.close(); // Close the PrintWriter only after all operations are complete
-	    }
+            // 参数检查
+            if (supplyProduct == null || supplyProduct.isEmpty()) {
+                throw new IllegalArgumentException("供应产品不能为空");
+            }
+            if (supplyCountStr == null || supplyCountStr.isEmpty()) {
+                throw new IllegalArgumentException("供应数量不能为空");
+            }
+            if (supplyPriceStr == null || supplyPriceStr.isEmpty()) {
+                throw new IllegalArgumentException("供应价格不能为空");
+            }
+            if (supplyOriIdStr == null || supplyOriIdStr.isEmpty()) {
+                throw new IllegalArgumentException("供应商ID不能为空");
+            }
+            if (employeeIdStr == null || employeeIdStr.isEmpty()) {
+                throw new IllegalArgumentException("员工ID不能为空");
+            }
 
-	}}
+            supply.setSupplyProduct(supplyProduct);
+            supply.setSupplyCount(Integer.parseInt(supplyCountStr));
+            supply.setSupplyPrice(Double.parseDouble(supplyPriceStr));
+            supply.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+
+            int supplyOriId = Integer.parseInt(supplyOriIdStr);
+            SupplyOriBean supplyOri = session.get(SupplyOriBean.class, supplyOriId);
+            if (supplyOri != null) {
+                supply.getSupplyOriBean().add(supplyOri);
+            } else {
+                throw new Exception("供应商未找到");
+            }
+
+            int employeeId = Integer.parseInt(employeeIdStr);
+            EmployeeBean employee = session.get(EmployeeBean.class, employeeId);
+            if (employee != null) {
+                supply.getEmployeeBean().add(employee);
+            } else {
+                throw new Exception("员工未找到");
+            }
+
+            service.createSupply(supply);
+            session.getTransaction().commit();
+            response.sendRedirect("ShowAllReadSupplyServlet.do");
+        } catch (Exception e) {
+            if (session != null && session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "创建供应信息失败: " + e.getMessage());
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+}

@@ -1,150 +1,135 @@
 package bistro.bean;
 
+import jakarta.persistence.*;
 import java.sql.Timestamp;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-
-
-
-
-@Entity @Table(name = "Supply")
+@Entity
+@Table(name = "Supply")
 public class SupplyBean {
-	
-		
-		@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-		private int Supply_id;
-		
-		
-		// hibernate可以透過關聯存取資訊
-		@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//2邊都要寫
-		@JoinTable(name = "SupplyOriMerge", joinColumns = {@JoinColumn(name = "Supply_id")}, inverseJoinColumns = {@JoinColumn(name="SupplyOri_id")}) //FK
-		private List<SupplyOriBean> supplyOriBean = new LinkedList<SupplyOriBean>();
-		
-		
-		@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		@JoinTable(name = "SupplyEmployeeMerge", joinColumns = {@JoinColumn(name = "Supply_id")}, inverseJoinColumns = {@JoinColumn(name="Employee_id")}) //FK
-		private List<EmployeeBean> employeeBean = new LinkedList<EmployeeBean>();
-	
-		
-		
-		
-		private String supply_product;
-		private int supply_count;
-		private int supply_price;
-		private Timestamp created_at;
-		
-		
-		
-		public SupplyBean() {}
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Supply_id")
+    private int supplyId;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false) // 每个供货只能由一名员工处理
+    private EmployeeBean employeeBean;
+
+    @ManyToMany
+    @JoinTable(
+        name = "SupplyOriMerge",
+        joinColumns = @JoinColumn(name = "Supply_id"),
+        inverseJoinColumns = @JoinColumn(name = "SupplyOri_id")
+    )
+    private Set<SupplyOriBean> supplyOriBeans = new HashSet<>();
+
+    @Column(name = "supply_product")
+    private String supplyProduct;
+
+    @Column(name = "supply_count")
+    private int supplyCount;
+
+    @Column(name = "supply_price")
+    private int supplyPrice;
+
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+    
+    
+    
+    public SupplyBean() {}
 
 
 
-		public int getSupply_id() {
-			return Supply_id;
-		}
+	public int getSupplyId() {
+		return supplyId;
+	}
 
 
 
-		public void setSupply_id(int supply_id) {
-			Supply_id = supply_id;
-		}
+	public void setSupplyId(int supplyId) {
+		this.supplyId = supplyId;
+	}
 
 
 
-		public List<SupplyOriBean> getSupplyOriBean() {
-			return supplyOriBean;
-		}
+	public EmployeeBean getEmployeeBean() {
+		return employeeBean;
+	}
 
 
 
-		public void setSupplyOriBean(List<SupplyOriBean> supplyOriBean) {
-			this.supplyOriBean = supplyOriBean;
-		}
+	public void setEmployeeBean(EmployeeBean employeeBean) {
+		this.employeeBean = employeeBean;
+	}
 
 
 
-		public List<EmployeeBean> getEmployeeBean() {
-			return employeeBean;
-		}
+	public Set<SupplyOriBean> getSupplyOriBeans() {
+		return supplyOriBeans;
+	}
 
 
 
-		public void setEmployeeBean(List<EmployeeBean> employeeBean) {
-			this.employeeBean = employeeBean;
-		}
+	public void setSupplyOriBeans(Set<SupplyOriBean> supplyOriBeans) {
+		this.supplyOriBeans = supplyOriBeans;
+	}
 
 
 
-		public String getSupply_product() {
-			return supply_product;
-		}
+	public String getSupplyProduct() {
+		return supplyProduct;
+	}
 
 
 
-		public void setSupply_product(String supply_product) {
-			this.supply_product = supply_product;
-		}
+	public void setSupplyProduct(String supplyProduct) {
+		this.supplyProduct = supplyProduct;
+	}
 
 
 
-		public int getSupply_count() {
-			return supply_count;
-		}
+	public int getSupplyCount() {
+		return supplyCount;
+	}
 
 
 
-		public void setSupply_count(int supply_count) {
-			this.supply_count = supply_count;
-		}
+	public void setSupplyCount(int supplyCount) {
+		this.supplyCount = supplyCount;
+	}
 
 
 
-		public int getSupply_price() {
-			return supply_price;
-		}
+	public int getSupplyPrice() {
+		return supplyPrice;
+	}
 
 
 
-		public void setSupply_price(int supply_price) {
-			this.supply_price = supply_price;
-		}
+	public void setSupplyPrice(int supplyPrice) {
+		this.supplyPrice = supplyPrice;
+	}
 
 
 
-		public Timestamp getCreated_at() {
-			return created_at;
-		}
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
 
 
 
-		public void setCreated_at(Timestamp created_at) {
-			this.created_at = created_at;
-		}
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	};
 
-
-
-		public SupplyBean getSupplyBean() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-
+    // Getters and Setters...
+    
+    
+    
+    
+    
 }
