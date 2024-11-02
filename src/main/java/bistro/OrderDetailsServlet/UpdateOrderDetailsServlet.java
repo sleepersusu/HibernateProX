@@ -1,5 +1,6 @@
 package bistro.OrderDetailsServlet;
 
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,14 +16,13 @@ import java.time.format.DateTimeFormatter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import bistro.bean.MenuBean;
 import bistro.bean.OrderDetailsBean;
-import bistro.service.MenuService;
+import bistro.bean.OrdersBean;
 import bistro.service.OrderDetailsService;
 import bistro.util.HibernateUtil;
 
-/**
- * Servlet implementation class UpdateOrderDetailsServlet
- */
+
 @WebServlet(name = "UpdateOrderDetailsServlet.do", urlPatterns = { "/UpdateOrderDetailsServlet.do" })
 public class UpdateOrderDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -63,18 +63,18 @@ public class UpdateOrderDetailsServlet extends HttpServlet {
 			throws IOException, SQLException, ClassNotFoundException {
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		int orderDetailsId = Integer.parseInt(request.getParameter("orderDetailsid"));
 		
-		
-		int orders = Integer.parseInt(request.getParameter("orders"));
-		int menuId = Integer.parseInt(request.getParameter("productName"));
 
+		int orders = Integer.parseInt(request.getParameter("orders"));//訂單號碼
+		int productid = Integer.parseInt(request.getParameter("productid")); //商品號碼
+		String productName =request.getParameter("productName");
+		int productPrice = Integer.parseInt(request.getParameter("productPrice")); //商品價格
 		int productQuantity = Integer.parseInt(request.getParameter("productQuantity"));
 		int totalQuantity = Integer.parseInt(request.getParameter("totalQuantity"));
 		int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
 		String specialRequest = request.getParameter("specialRequest");
 
-		String createdAt = request.getParameter("created_At");
+		String createdAt = request.getParameter("createdAt");
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 		LocalDateTime localDateTime = LocalDateTime.parse(createdAt, formatter);
@@ -82,16 +82,25 @@ public class UpdateOrderDetailsServlet extends HttpServlet {
 
 		OrderDetailsBean updateBean = new OrderDetailsBean();
 		
-		updateBean.setOrderDetails_id(orderDetailsId);
-		updateBean.getOrders().setOrdersId(orders);
-		updateBean.getProduct().setMenuid(menuId);
+
+		OrdersBean ordersBean = new OrdersBean();
+		ordersBean.setOrdersId(orders);
+//		ordersBean.setSeatId();
+//		ordersBean.setCustomerName();
+
+		MenuBean menuBean = new MenuBean();
+		menuBean.setProductName(productName);
+		menuBean.setProductPrice(productPrice);
+		menuBean.setMenuid(productid);
+
+		updateBean.setOrders(ordersBean);
+		updateBean.setProduct(menuBean);
+
 		updateBean.setProduct_quantity(productQuantity);
 		updateBean.setTotal_quantity(totalQuantity);
 		updateBean.setTotal_price(totalPrice);
 		updateBean.setSpecial_requests(specialRequest);
 		updateBean.setCreated_at(timestamp);
-	
-		
 
 		SessionFactory factory = HibernateUtil.getSessionFactory();
 		Session session = factory.getCurrentSession();

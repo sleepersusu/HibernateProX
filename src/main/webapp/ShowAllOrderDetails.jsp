@@ -345,20 +345,44 @@ body .modal .modal-content form textarea {
 							<legend style="margin-bottom: 1rem; font-weight: bold">
 								訂單詳情資訊 </legend>
 
-
-							<input type="hidden" name="orderDetailsId" id="orderDetailsId"
-								value="">
-
 							<div class="question">
-								<span class="title">產品編號</span> <input type="text" id=""
-									name="menuId" value="" placeholder="請輸入" required
+								<span class="title">訂單編號</span> <input type="text" id="orders2"
+									name="orders" value="" placeholder="請輸入訂單編號" required
 									aria-required="true" />
 							</div>
 
 							<div class="question">
-								<span class="title">數量</span> <input type="text"
-									id="productQuantity2" name="productQuantity" value=""
-									placeholder="請輸入數量" required aria-required="true" />
+								<label for="productid2" class="title">餐點</label> <select
+									name="productid" id="productid2" required>
+									<option value="0" data-price="0" selected>選擇餐點</option>
+									<option data-name="牛排" data-price="500" value="1">牛排</option>
+									<option data-name="沙拉" data-price="150" value="2">沙拉</option>
+									<option data-name="義大利麵" data-price="300" value="3">義大利麵</option>
+									<option data-name="飲料" data-price="100" value="4">飲料</option>
+									<option data-name="甜點" data-price="200" value="5">甜點</option>
+									<option data-name="比薩" data-price="400" value="6">比薩</option>
+									<option data-name="燉飯" data-price="350" value="7">燉飯</option>
+									<option data-name="炸物拼盤" data-price="450" value="8">炸物拼盤</option>
+									<option data-name="海鮮拼盤" data-price="600" value="9">海鮮拼盤</option>
+									<option data-name="烤雞" data-price="300" value="10">烤雞</option>
+									<option data-name="果汁" data-price="120" value="11">果汁</option>
+									<option data-name="冰淇淋" data-price="150" value="12">冰淇淋</option>
+									<option data-name="春捲" data-price="180" value="13">春捲</option>
+									<option data-name="牛肉麵" data-price="250" value="14">牛肉麵</option>
+									<option data-name="咖啡" data-price="180" value="15">咖啡</option>
+									<option data-name="羊排" data-price="700" value="16">羊排</option>
+									<option data-name="炸雞" data-price="230" value="17">炸雞</option>
+									<option data-name="蛋糕" data-price="250" value="18">蛋糕</option>
+									<option data-name="海鮮炒飯" data-price="320" value="19">海鮮炒飯</option>
+									<option data-name="奶昔" data-price="160" value="20">奶昔</option>
+								</select>
+							</div>
+
+
+							<div class="question">
+								<label for="productName2" class="title">商品名稱</label> <input
+									type="text" name="productName" id="productName2" value=""
+									required readonly>
 							</div>
 							
 							<div class="question">
@@ -366,25 +390,36 @@ body .modal .modal-content form textarea {
 									id="productPrice2" name="productPrice" value=""
 									placeholder="" required aria-required="true" readonly />
 							</div>
-							
-							
 
 							<div class="question">
-								<span class="title">總數量</span> <input type="text"
-									id="totalQuantity2" name="totalQuantity" value=""
-									placeholder="" required aria-required="true" />
+								<span class="title">數量</span> <input type="number"
+									id="productQuantity2" name="productQuantity" value=""
+									placeholder="請輸入數量" required aria-required="true" min="0" />
 							</div>
 
 							<div class="question">
+								<span class="title">總數量</span> <input type="number"
+									id="totalQuantity2" name="totalQuantity" value="" required
+									aria-required="true" readonly />
+							</div>
+							
+							
+
+							<div class="question">
 								<span class="title">總價格</span> <input type="number"
-									id="totalPrice2" name="totalPrice" value=""
-									placeholder="請輸入活動名稱" required aria-required="true" />
+									id="totalPrice2" name="totalPrice" value="" required
+									aria-required="true"  readonly/>
 							</div>
 
 							<div class="question">
 								<span class="title">特殊備註</span> <input type="text"
-									id="specialRequest2" name="specialRequest" value=""
-									placeholder="請輸入活動類別" required aria-required="true" />
+									id="specialRequest2" name="specialRequest" value="" />
+							</div>
+							
+							<div class="question">
+								<label for="createdAt2" class="title">建立時間</label> <input
+									type="datetime-local" name="createdAt" id="createdAt2" value=""
+									required step=60>
 							</div>
 						</fieldset>
 
@@ -395,7 +430,6 @@ body .modal .modal-content form textarea {
 						</div>
 					</form>
 				</div>
-				<!-- modal-content -->
 			</div>
 
 
@@ -438,19 +472,23 @@ body .modal .modal-content form textarea {
 	        }
 	      };
 	      
+	      
+	      
+	      //--------------------------------顯示編輯表單預設值----------------------------------------------//
 	      function openEditModal(orderDetails) {
 		    	document.getElementById("addEventModal2").style.display = "block";
 		    	
-		    	document.getElementById("orderDetailsId").value = orderDetails.orders;
+		    	document.getElementById("order2").value = orderDetails.orders;
 	    	    document.getElementById("menuId").value = orderDetails.menuId;
 	    	    document.getElementById("productQuantity").value = orderDetails.productQuantity;
 	    	    document.getElementById("totalQuantity").value = orderDetails.totalQuantity;
 	    	    document.getElementById("totalPrice").value = orderDetails.totalPrice;
 	    	    document.getElementById("specialRequest").value = orderDetails.specialRequest;
 		      }
+	      //--------------------------------顯示編輯表單預設值----------------------------------------------//
 	      
 
-	      
+	      //--------------------------------新增表單----------------------------------------------//
 	   // 當餐點選項改變時，更新價格
 	      document.getElementById('productid').addEventListener('change', function() {
 	              let selectedOption = this.options[this.selectedIndex];
@@ -485,7 +523,46 @@ body .modal .modal-content form textarea {
 	              }
 
 	          }
-      
+	        //--------------------------------新增表單----------------------------------------------//
+	          
+	        
+	        
+	      //--------------------------------編輯表單----------------------------------------------//
+	          // 當餐點選項改變時，更新價格
+		      document.getElementById('productid2').addEventListener('change', function() {
+		              let selectedOption = this.options[this.selectedIndex];
+		              let price = selectedOption.getAttribute('data-price') || '';
+		              let name = selectedOption.getAttribute('data-name') || '';
+		              document.getElementById('productPrice2').value = price;
+		              document.getElementById('productName2').value =name;
+		              updateTotalPrice2();
+		          });
+
+		          // 當數量改變時，更新總價
+		          document.getElementById('productQuantity2').addEventListener('input', updateTotalPrice2);
+					
+		          
+		          document.getElementById('productQuantity2').addEventListener('change', function() {
+		  	        let productQuantity=document.getElementById('productQuantity2').value;
+		  			let totalQuantity=document.getElementById('totalQuantity2')
+		  			totalQuantity.value=productQuantity;
+		  	        	
+		  	        })
+		          // 更新總價
+		          function updateTotalPrice2() {
+		              let price = document.getElementById("productPrice2").value;
+		              let quantity = document.getElementById("productQuantity2").value;
+		              let totalPrice = document.getElementById("totalPrice2");
+		              let regex = new RegExp("^[0-9]+$");
+		              let test=regex.test(quantity);
+		              if (!isNaN(price) && !isNaN(quantity)&&test) {
+		                  totalPrice.value = (price*quantity);
+		              } else {
+		                  totalPriceInput.value = "";
+		              }
+
+		          }
+		          //--------------------------------編輯表單----------------------------------------------//
       
 	</script>
 </body>

@@ -44,7 +44,7 @@ public class OrderDetailsService {
 	
 	public boolean updateOrderDetails(OrderDetailsBean updateBean) {
 
-		return updateOrderDetails(updateBean);
+		return dao.updateOrderDetails(updateBean);
 		
 
 	}

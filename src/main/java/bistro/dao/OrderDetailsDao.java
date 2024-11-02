@@ -43,7 +43,7 @@ public class OrderDetailsDao {
 		return true;
 	}
 
-	boolean updateOrderDetails(OrderDetailsBean updateBean) {
+	public boolean updateOrderDetails(OrderDetailsBean updateBean) {
 
 		session.merge(updateBean);
 		return true;

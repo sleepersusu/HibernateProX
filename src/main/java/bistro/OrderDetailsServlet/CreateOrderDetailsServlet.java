@@ -65,27 +65,23 @@ public class CreateOrderDetailsServlet extends HttpServlet {
 		Session session = factory.getCurrentSession();
 		
 		OrderDetailsService service = new OrderDetailsService(session);
-		
 		OrderDetailsBean bean = new OrderDetailsBean();
+		
 		OrdersBean ordersBean = new OrdersBean();
+		ordersBean.setOrdersId(orders);
+//		ordersBean.setSeatId();
+//		ordersBean.setCustomerName();
 		
-		
-
-		// 初始化並設置 ProductBean
 		MenuBean menuBean = new MenuBean();
-		menuBean.setMenuid(productid);
 		menuBean.setProductName(productName);
 		menuBean.setProductPrice(productPrice);
+		menuBean.setMenuid(productid);
 		
+		bean.setOrders(ordersBean);
+		bean.setProduct(menuBean);
 		
+		bean.getOrders().getOrdersId();
 		
-		bean.getOrders().setOrdersId(orders);
-		
-		bean.getProduct().setMenuid(productid);
-		
-		bean.getProduct().setProductName(productName);
-
-		bean.getProduct().setProductPrice(productPrice);
 		bean.setProduct_quantity(productQuantity);
 		bean.setTotal_quantity (totaltQuantity);
 		bean.setTotal_price(totalPrice);
