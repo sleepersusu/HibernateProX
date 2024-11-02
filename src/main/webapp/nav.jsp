@@ -20,7 +20,7 @@
 					</a></li>
 
 
-					<li class="menuitem"><a href="/BistroBackstage/FindAllMenuServlet.do">
+					<li class="menuitem"><a href="/BistroBackstage/ShowAllMenuServlet.do">
 							<i class="fa-solid fa-whiskey-glass"></i> 商品管理
 					</a></li>
 

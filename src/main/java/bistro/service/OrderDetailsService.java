@@ -16,6 +16,11 @@ public class OrderDetailsService {
 		dao = new OrderDetailsDao(session);
 
 	}
+	
+	
+	public boolean createOrderDetails(OrderDetailsBean saveBean) {
+		return dao.createOrderDetails(saveBean);
+	}
 
 	public List<OrderDetailsBean> queryAllOrderDetails() {
 
@@ -37,12 +42,14 @@ public class OrderDetailsService {
 		return dao.deleteOrderDetailsById(deleteBean);
 	}
 	
-	boolean updateOrderDetails(OrderDetailsBean updateBean) {
+	public boolean updateOrderDetails(OrderDetailsBean updateBean) {
 
 		return updateOrderDetails(updateBean);
 		
 
 	}
+	
+	
 
 	
 	

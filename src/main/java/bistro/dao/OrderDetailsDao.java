@@ -19,6 +19,12 @@ public class OrderDetailsDao {
 		return session;
 	}
 
+	public boolean createOrderDetails(OrderDetailsBean saveBean) {
+		session.persist(saveBean);
+		return true;
+	}
+	
+	
 	public List<OrderDetailsBean> queryAllOrderDetails() {
 		Query<OrderDetailsBean> query = session.createQuery("from OrderDetailsBean", OrderDetailsBean.class);
 		return query.list();
