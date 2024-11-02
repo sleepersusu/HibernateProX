@@ -10,9 +10,12 @@ import bistro.bean.EmployeeBean;
 import bistro.bean.SupplyBean;
 import bistro.bean.SupplyOriBean;
 import bistro.bean.UsersBean;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
 
+@Slf4j
 public class ServiceActionTestForSupply {
     public static void main(String[] args) {
         // 创建 SessionFactory
@@ -100,8 +103,8 @@ public class ServiceActionTestForSupply {
 
             // 关联供应商
             supply2.getSupplyOriBeans().add(supplyOri1);
-
             // 保存供货
+            System.out.println(supply1.toString());
             session.persist(supply1);
             session.persist(supply2);
 

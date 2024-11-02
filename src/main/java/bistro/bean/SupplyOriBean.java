@@ -1,19 +1,27 @@
 package bistro.bean;
-import jakarta.persistence.*;
+
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "SupplyOri")
 public class SupplyOriBean {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SupplyOri_id")
     private int supplyOriId;
 
-    @Column(name = "supplyOri_name")
+    @Column(name = "supplyOri_name", nullable = false)
     private String supplyOriName;
 
     @Column(name = "supplyOri_tel")
@@ -25,75 +33,61 @@ public class SupplyOriBean {
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    @ManyToMany(mappedBy = "supplyOriBeans", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<SupplyBean> supplyBeans = new HashSet<>();
+    @OneToMany(mappedBy = "supplyOriBean", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SupplyBean> supplies;
 
+    public  SupplyOriBean() {}
     
-    public SupplyOriBean() {}
-
-    
-    // Getters and Setters...
-
+ // Getters and Setters
 
 	public int getSupplyOriId() {
 		return supplyOriId;
 	}
 
-
 	public void setSupplyOriId(int supplyOriId) {
 		this.supplyOriId = supplyOriId;
 	}
-
 
 	public String getSupplyOriName() {
 		return supplyOriName;
 	}
 
-
 	public void setSupplyOriName(String supplyOriName) {
 		this.supplyOriName = supplyOriName;
 	}
-
 
 	public String getSupplyOriTel() {
 		return supplyOriTel;
 	}
 
-
 	public void setSupplyOriTel(String supplyOriTel) {
 		this.supplyOriTel = supplyOriTel;
 	}
-
 
 	public String getSupplyOriAddress() {
 		return supplyOriAddress;
 	}
 
-
 	public void setSupplyOriAddress(String supplyOriAddress) {
 		this.supplyOriAddress = supplyOriAddress;
 	}
-
 
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
 
-
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 
-
-	public Set<SupplyBean> getSupplyBeans() {
-		return supplyBeans;
+	public List<SupplyBean> getSupplies() {
+		return supplies;
 	}
 
-
-	public void setSupplyBeans(Set<SupplyBean> supplyBeans) {
-		this.supplyBeans = supplyBeans;
+	public void setSupplies(List<SupplyBean> supplies) {
+		this.supplies = supplies;
 	};
-        
+    
     
     
 }

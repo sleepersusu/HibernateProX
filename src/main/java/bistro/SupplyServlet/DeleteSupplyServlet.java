@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import bistro.service.SupplyService;
@@ -21,23 +22,17 @@ public class DeleteSupplyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	        int id = Integer.parseInt(request.getParameter("supplyId"));
 
-        try {
-            SupplyService supplyService = new SupplyService(session);
-            SupplyBean supply = supplyService.findSupplyById(Integer.parseInt(request.getParameter("supply_id")));
-            if (supply != null) {
-                supplyService.deleteSupply(supply);
-                transaction.commit();
-            }
-            response.sendRedirect("ShowAllSupplyServlet.do");
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-    }
-}
+	        SessionFactory factory = HibernateUtil.getSessionFactory();
+	        Session session = factory.getCurrentSession();
+	        SupplyService service = new SupplyService(session);
+	        SupplyBean supply = service.findSupplyById(id);
+	        if (supply != null) {
+	            service.deleteSupply(supply);
+	        }
+
+	        response.sendRedirect("ShowAllReadSupplyServlet.do");
+	    }
+	}

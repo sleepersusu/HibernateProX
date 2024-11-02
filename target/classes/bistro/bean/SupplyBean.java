@@ -1,47 +1,51 @@
 package bistro.bean;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "Supply")
 public class SupplyBean {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Supply_id")
     private int supplyId;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false) // 每个供货只能由一名员工处理
-    private EmployeeBean employeeBean;
+    @JoinColumn(name = "employee_id", nullable = false)
+    private EmployeeBean employeeBean; // 不使用 Cascade
 
-    @ManyToMany
-    @JoinTable(
-        name = "SupplyOriMerge",
-        joinColumns = @JoinColumn(name = "Supply_id"),
-        inverseJoinColumns = @JoinColumn(name = "SupplyOri_id")
-    )
-    private Set<SupplyOriBean> supplyOriBeans = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "supplyOri_id", nullable = false)
+    private SupplyOriBean supplyOriBean; // 不使用 Cascade
 
-    @Column(name = "supply_product")
+    @Column(name = "supply_product", nullable = false)
     private String supplyProduct;
 
-    @Column(name = "supply_count")
+    @Column(name = "supply_count", nullable = false)
     private int supplyCount;
 
-    @Column(name = "supply_price")
+    @Column(name = "supply_price", nullable = false)
     private int supplyPrice;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
-    
-    
+
     
     public SupplyBean() {}
-
+    
+    
+    // Getters and Setters
+    // ...
+    
 
 
 	public int getSupplyId() {
@@ -49,11 +53,9 @@ public class SupplyBean {
 	}
 
 
-
 	public void setSupplyId(int supplyId) {
 		this.supplyId = supplyId;
 	}
-
 
 
 	public EmployeeBean getEmployeeBean() {
@@ -61,23 +63,19 @@ public class SupplyBean {
 	}
 
 
-
 	public void setEmployeeBean(EmployeeBean employeeBean) {
 		this.employeeBean = employeeBean;
 	}
 
 
-
-	public Set<SupplyOriBean> getSupplyOriBeans() {
-		return supplyOriBeans;
+	public SupplyOriBean getSupplyOriBean() {
+		return supplyOriBean;
 	}
 
 
-
-	public void setSupplyOriBeans(Set<SupplyOriBean> supplyOriBeans) {
-		this.supplyOriBeans = supplyOriBeans;
+	public void setSupplyOriBean(SupplyOriBean supplyOriBean) {
+		this.supplyOriBean = supplyOriBean;
 	}
-
 
 
 	public String getSupplyProduct() {
@@ -85,11 +83,9 @@ public class SupplyBean {
 	}
 
 
-
 	public void setSupplyProduct(String supplyProduct) {
 		this.supplyProduct = supplyProduct;
 	}
-
 
 
 	public int getSupplyCount() {
@@ -97,11 +93,9 @@ public class SupplyBean {
 	}
 
 
-
 	public void setSupplyCount(int supplyCount) {
 		this.supplyCount = supplyCount;
 	}
-
 
 
 	public int getSupplyPrice() {
@@ -109,11 +103,9 @@ public class SupplyBean {
 	}
 
 
-
 	public void setSupplyPrice(int supplyPrice) {
 		this.supplyPrice = supplyPrice;
 	}
-
 
 
 	public Timestamp getCreatedAt() {
@@ -121,12 +113,17 @@ public class SupplyBean {
 	}
 
 
-
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	};
-
-    // Getters and Setters...
+    
+    // Getters and Setters
+    // ...
+    
+    
+    
+    
+    
     
     
     

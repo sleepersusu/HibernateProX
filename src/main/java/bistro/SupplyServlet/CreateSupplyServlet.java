@@ -6,94 +6,58 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import bistro.bean.CampaignPrizesBean;
-import bistro.bean.EmployeeBean;
 import bistro.bean.SupplyBean;
-import bistro.bean.SupplyOriBean;
+import bistro.bean.EmployeeBean; // 引入 EmployeeBean
+import bistro.bean.SupplyOriBean; // 引入 SupplyOriBean
 import bistro.service.SupplyService;
+import bistro.service.EmployeeService; // 引入 EmployeeService
+import bistro.service.SupplyOriService; // 引入 SupplyOriService
 import bistro.util.HibernateUtil;
-
 
 @WebServlet("/CreateSupplyServlet.do")
 public class CreateSupplyServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        SupplyBean supply = new SupplyBean();
+
+        // 請求獲取參數
+        int supplyOriId = Integer.parseInt(request.getParameter("supplyOriId"));
+        String supplyProduct = request.getParameter("supplyProduct");
+        int supplyCount = Integer.parseInt(request.getParameter("supplyCount"));
+        int supplyPrice = Integer.parseInt(request.getParameter("supplyPrice"));
+        int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+
+        // 設定 SupplyBean 的属性
+        supply.setSupplyProduct(supplyProduct);
+        supply.setSupplyCount(supplyCount);
+        supply.setSupplyPrice(supplyPrice);
+
+        // 獲取 Hibernate Session
         SessionFactory factory = HibernateUtil.getSessionFactory();
-        Session session = null;
-        SupplyService service = null;
+        Session session = factory.getCurrentSession();
 
-        try {
-            session = factory.openSession();
-            service = new SupplyService(session);
-            session.beginTransaction();
+        // 創建物件接住
+        SupplyService supplyService = new SupplyService(session);
+        EmployeeService employeeService = new EmployeeService(session);
+        SupplyOriService supplyOriService = new SupplyOriService(session);
 
-            SupplyBean supply = new SupplyBean();
-            String supplyProduct = request.getParameter("supply_product");
-            String supplyCountStr = request.getParameter("supply_count");
-            String supplyPriceStr = request.getParameter("supply_price");
-            String supplyOriIdStr = request.getParameter("supplyOri_id");
-            String employeeIdStr = request.getParameter("employee_id");
+        // 查找相關的 EmployeeBean 和 SupplyOriBean
+        EmployeeBean employee = employeeService.findEmployeeById(employeeId);
+        SupplyOriBean supplyOri = supplyOriService.findSupplyOriById(supplyOriId);
 
-            // 参数检查
-            if (supplyProduct == null || supplyProduct.isEmpty()) {
-                throw new IllegalArgumentException("供应产品不能为空");
-            }
-            if (supplyCountStr == null || supplyCountStr.isEmpty()) {
-                throw new IllegalArgumentException("供应数量不能为空");
-            }
-            if (supplyPriceStr == null || supplyPriceStr.isEmpty()) {
-                throw new IllegalArgumentException("供应价格不能为空");
-            }
-            if (supplyOriIdStr == null || supplyOriIdStr.isEmpty()) {
-                throw new IllegalArgumentException("供应商ID不能为空");
-            }
-            if (employeeIdStr == null || employeeIdStr.isEmpty()) {
-                throw new IllegalArgumentException("员工ID不能为空");
-            }
+        // 設定關聯對象
+        supply.setEmployeeBean(employee);
+        supply.setSupplyOriBean(supplyOri);
 
-            supply.setSupplyProduct(supplyProduct);
-            supply.setSupplyCount(Integer.parseInt(supplyCountStr));
-            supply.setSupplyPrice(Double.parseDouble(supplyPriceStr));
-            supply.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        // 調用方法保存
+        supplyService.createSupply(supply);
 
-            int supplyOriId = Integer.parseInt(supplyOriIdStr);
-            SupplyOriBean supplyOri = session.get(SupplyOriBean.class, supplyOriId);
-            if (supplyOri != null) {
-                supply.getSupplyOriBean().add(supplyOri);
-            } else {
-                throw new Exception("供应商未找到");
-            }
-
-            int employeeId = Integer.parseInt(employeeIdStr);
-            EmployeeBean employee = session.get(EmployeeBean.class, employeeId);
-            if (employee != null) {
-                supply.getEmployeeBean().add(employee);
-            } else {
-                throw new Exception("员工未找到");
-            }
-
-            service.createSupply(supply);
-            session.getTransaction().commit();
-            response.sendRedirect("ShowAllReadSupplyServlet.do");
-        } catch (Exception e) {
-            if (session != null && session.getTransaction() != null) {
-                session.getTransaction().rollback();
-            }
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "创建供应信息失败: " + e.getMessage());
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        // 回到首頁servlet.do
+        response.sendRedirect("ShowAllReadSupplyServlet.do");
     }
 }

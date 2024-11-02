@@ -145,30 +145,18 @@ body .modal .modal-content form textarea {
 							</thead>
 							<tbody id="event-list">
 							
-								<c:forEach var="item" items="${allSupply}">
+								<c:forEach var="item" items="${allSupplies}">
     							<tr>
 							        <td>${item.supplyId}</td>
-							        <td>
-							            <c:choose>
-							                <c:when test="${not empty item.supplyOriBean}">
-							                    <c:forEach var="ori" items="${item.supplyOriBean}">
-							                        ${ori.supplyOriName}<br />
-							                    </c:forEach>
-							                </c:when>
-							                <c:otherwise>
-							                    <span>没有供應商</span>
-							                </c:otherwise>
-							            </c:choose>
-							        </td>
-					                    <td>${item.supplyProduct}</td>
-								        <td>${item.supplyCount}</td>
-								        <td>${item.supplyPrice}</td>
-								        <td>
-								            <c:forEach var="emp" items="${item.employeeBean}">
-								                ${emp.employeeName} 
-								            </c:forEach>
-								        </td>
-								        <td>${item.createdAt}</td>
+							        <td>${item.supplyOriBean.supplyOriName}</td>
+					                <td>${item.supplyProduct}</td>
+								    <td>${item.supplyCount}</td>
+								    <td>${item.supplyPrice}</td>
+					                <td>${item.employeeBean.employeeName}</td>
+								    <td>${item.createdAt}</td>
+								    
+								        
+								        
 								        <td>
 								            <button 
 					                    	type="button" 
@@ -234,9 +222,9 @@ body .modal .modal-content form textarea {
 							<div class="question">
 								<span class="title">廠商編號</span> 
 								<input 
-									type="text" 
+									type="number" 
 									id=""
-									name="supplyId" 
+									name="supplyOriId" 
 									value="" 
 									placeholder="請輸入廠商編號" 
 									required
@@ -258,7 +246,7 @@ body .modal .modal-content form textarea {
 							<div class="question">
 								<span class="title">產品數量</span> 
 								<input 
-									type="text" 
+									type="number" 
 									id=""
 									name="supplyCount" 
 									value="" 
@@ -270,7 +258,7 @@ body .modal .modal-content form textarea {
 							<div class="question">
 								<span class="title">產品價錢</span> 
 								<input 
-									type="text" 
+									type="number" 
 									id=""
 									name="supplyPrice" 
 									value="" 
@@ -282,7 +270,7 @@ body .modal .modal-content form textarea {
 							<div class="question">
 								<span class="title">經手人</span> 
 								<input 
-									type="text" 
+									type="number" 
 									id=""
 									name="employeeId" 
 									value="" 
