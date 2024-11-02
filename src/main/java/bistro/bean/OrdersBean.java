@@ -25,7 +25,6 @@ public class OrdersBean {
 	@Id
 	@Column(name = "Orders_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	private int ordersId;
 
 	@Column(name = "members_id")
