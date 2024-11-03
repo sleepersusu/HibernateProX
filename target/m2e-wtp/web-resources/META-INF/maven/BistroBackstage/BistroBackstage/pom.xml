@@ -64,6 +64,11 @@
 		    <scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>HibernateTest</groupId>
+			<artifactId>HibernateTest</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
