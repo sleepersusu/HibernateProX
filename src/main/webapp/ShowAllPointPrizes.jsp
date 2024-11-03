@@ -143,11 +143,11 @@ body .modal .modal-content form textarea {
 			</header>
 
 			<main>
-				<h2>獎品兌換歷史</h2>
+				<h2>獎品兌換</h2>
 				<section id="workspace">
 					<div>
 						<button type="submit" class="dataButton" id="addData">
-							新增兌換紀錄</button>
+							新增獎品</button>
 					</div>
 				</section>
 

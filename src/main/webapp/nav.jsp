@@ -15,12 +15,12 @@
 		<div id="sidebox">
 			<div id="menubox">
 				<ul class="menu">
-					<li class="menuitem"><a href="/BistroBackstage/MembereCount.jsp"> <i
+					<li class="menuitem"><a href="BackendHomepage.jsp"> <i
 							class="fa-solid fa-house" style="color: #ffffff"></i> 首頁
 					</a></li>
 
 
-					<li class="menuitem"><a href="/BistroBackstage/FindAllMenuServlet.do">
+					<li class="menuitem"><a href="/BistroBackstage/ShowAllMenuServlet.do">
 							<i class="fa-solid fa-whiskey-glass"></i> 商品管理
 					</a></li>
 
