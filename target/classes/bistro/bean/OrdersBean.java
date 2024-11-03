@@ -11,12 +11,11 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.Table;
-
-
 
 @Entity
 @Table(name = "Orders")
@@ -25,7 +24,6 @@ public class OrdersBean {
 	@Id
 	@Column(name = "Orders_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	private int ordersId;
 
 	@Column(name = "members_id")
@@ -45,11 +43,11 @@ public class OrdersBean {
 
 	// 這裡mapped是寫 另一邊的bean
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orders", cascade = CascadeType.ALL)
-	private List<OrderDetailsBean> orderdetailsList=new LinkedList<OrderDetailsBean>();
-	
+	private List<OrderDetailsBean> orderdetailsList = new LinkedList<OrderDetailsBean>();
+
 //	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //	@JoinColumn(name = "seats_id", referencedColumnName = "Seats_id", insertable = false, updatable = false)
-//	private SeatsBean seats;
+//	private Seat seats;
 //
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "members_id", referencedColumnName = "members_id", insertable = false, updatable = false)
@@ -79,11 +77,11 @@ public class OrdersBean {
 		this.customerName = customerName;
 	}
 
-	public  Integer getSeatId() {
+	public Integer getSeatId() {
 		return seatId;
 	}
 
-	public void setSeatId( Integer seatId) {
+	public void setSeatId(Integer seatId) {
 		this.seatId = seatId;
 	}
 
@@ -111,17 +109,10 @@ public class OrdersBean {
 		this.orderdetailsList = orderdetailsList;
 	}
 
+	public OrdersBean() {
+		
+	}
 
 
-
-
-	
-	
-	
-	
-	
-	
-
-	
 
 }

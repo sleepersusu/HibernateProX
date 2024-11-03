@@ -17,16 +17,14 @@ public class Reservation {
 //	private LinkedList<Reservation> lists = new LinkedList<Reservation>(); //好像不需要
 	
 	
-	@Id @Column(name="reservations_id")
+	@Id @Column(name="Reservations_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer reserveationId;
+	private Integer reservationId;
 	
 	
-	@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Seats_id")
-    private Seat seatsId;
 	
-	
+    @Column(name = "seats_id")
+    private Integer seatsId;
 	
 	@Column(name="members_id")
 	private Integer memberId;
@@ -57,19 +55,16 @@ public class Reservation {
 
 	
 	public Reservation() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
-
-	public Integer getReserveationId() {
-		return reserveationId;
+	public Integer getReservationId() {
+		return reservationId;
 	}
 
-
-	public void setReserveationId(Integer reserveationId) {
-		this.reserveationId = reserveationId;
+	public void setReservationId(Integer reservationId) {
+		this.reservationId = reservationId;
 	}
-
 
 	public Integer getMemberId() {
 		return memberId;
@@ -158,6 +153,16 @@ public class Reservation {
 
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
+	}
+
+
+	public Integer getSeatsId() {
+		return seatsId;
+	}
+
+
+	public void setSeatsId(Integer seatsId) {
+		this.seatsId = seatsId;
 	}
 
 
