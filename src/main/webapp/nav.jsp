@@ -82,12 +82,12 @@
 							</li>
 						</ul></li>
 
-					<li class="menuitem"><a href="/BistroBackstage/RewardServlet.do"> <i
+					<li class="menuitem"><a href="/BistroBackstage/ShowAllPointPrizesServlet.do"> <i
 							class="fa-solid fa-user"></i> 點數管理
 					</a> <!--下拉選項內容開始-->
 						<ul class="dropdown">
-							<li><a href="/BistroBackstage/RewardServlet.do"><span class="arrow">&#9660;</span> 點數資訊</a></li>
-							<li><a href="/BistroBackstage/ShowPointsRecordServlet"><span class="arrow">&#9660;</span> 兌換歷史</a></li>
+							<li><a href="/BistroBackstage/ShowAllPointPrizesServlet.do"><span class="arrow">&#9660;</span> 點數資訊</a></li>
+							<li><a href="/BistroBackstage/ShowAllPointsRecordServlet.do"><span class="arrow">&#9660;</span> 兌換歷史</a></li>
 						</ul></li>
 
 				</ul>
