@@ -1,5 +1,7 @@
 package bistro.bean;
 
+
+
 import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
