@@ -133,7 +133,7 @@ body .modal .modal-content form textarea {
 									<th>桌號</th>									
 									<th>訂位狀況</th>
 									<th>備註</th>
-									<th>建立時間</th>
+									
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -163,7 +163,7 @@ body .modal .modal-content form textarea {
 									<td><%=prize.getSeatsId()%></td>
 									<td><%=prize.getReservationStatus()%></td>
 									<td><%=prize.getNotes()%></td>
-									<td><%=prize.getCreatedAt()%></td>
+									
 									<td>
 										<button type="button" id="edit"
 											onclick='openEditModal({
