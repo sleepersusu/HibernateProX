@@ -10,13 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity @Table(name = "MembersDetail")
 public class MembersDetailBean {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer MembersDetail_id;
-	@Column(name = "members_id", insertable = false, updatable = false)
-	private Integer members_id;
+//	@Column(name = "members_id", insertable = false, updatable = false)
+//	private Integer members_id; 
 	private byte[] membersD_img;
 	private String membersD_name;
 	private Integer membersD_age;
@@ -27,6 +28,12 @@ public class MembersDetailBean {
 	private String membersD_phone;
 	private String membersD_email;
 	
+	//測試新增前台需求屬性
+	@Transient
+    private String userSexStr;  // 性別字串
+	@Transient
+    private String userFavorStr;  // 偏好字串
+	
 	@OneToOne
     @JoinColumn(name = "members_id") // 外键
 	private MembersBean MembersBean;
@@ -35,13 +42,10 @@ public class MembersDetailBean {
 	}
 
 
-
-
-	public MembersDetailBean(Integer members_id, byte[] membersD_img, String membersD_name,
-			Integer membersD_age, Short membersD_sex, Date membersD_birthday, Short membersD_favor,
-			String membersD_address, String membersD_phone, String membersD_email
-			) {
-		this.members_id = members_id;
+	public MembersDetailBean(byte[] membersD_img, String membersD_name, Integer membersD_age,
+			Short membersD_sex, Date membersD_birthday, Short membersD_favor, String membersD_address,
+			String membersD_phone, String membersD_email, bistro.bean.MembersBean membersBean) {
+		super();
 		this.membersD_img = membersD_img;
 		this.membersD_name = membersD_name;
 		this.membersD_age = membersD_age;
@@ -51,14 +55,14 @@ public class MembersDetailBean {
 		this.membersD_address = membersD_address;
 		this.membersD_phone = membersD_phone;
 		this.membersD_email = membersD_email;
+		MembersBean = membersBean;
 	}
 
 
-	public MembersDetailBean(Integer membersDetail_id, Integer members_id, byte[] membersD_img, String membersD_name,
-			Integer membersD_age, Short membersD_sex, Date membersD_birthday, Short membersD_favor,
-			String membersD_address, String membersD_phone, String membersD_email, Integer memberCount) {
-		MembersDetail_id = membersDetail_id;
-		this.members_id = members_id;
+	public MembersDetailBean(byte[] membersD_img, String membersD_name, Integer membersD_age, Short membersD_sex,
+			Date membersD_birthday, Short membersD_favor, String membersD_address, String membersD_phone,
+			String membersD_email) {
+		super();
 		this.membersD_img = membersD_img;
 		this.membersD_name = membersD_name;
 		this.membersD_age = membersD_age;
@@ -78,16 +82,6 @@ public class MembersDetailBean {
 
 	public void setMembersDetail_id(Integer membersDetail_id) {
 		MembersDetail_id = membersDetail_id;
-	}
-
-
-	public Integer getMembers_id() {
-		return members_id;
-	}
-
-
-	public void setMembers_id(Integer members_id) {
-		this.members_id = members_id;
 	}
 
 
@@ -188,6 +182,34 @@ public class MembersDetailBean {
 
 	public void setMembersBean(MembersBean membersBean) {
 		MembersBean = membersBean;
+	}
+
+
+
+
+	public String getUserSexStr() {
+		return userSexStr;
+	}
+
+
+
+
+	public void setUserSexStr(String userSexStr) {
+		this.userSexStr = userSexStr;
+	}
+
+
+
+
+	public String getUserFavorStr() {
+		return userFavorStr;
+	}
+
+
+
+
+	public void setUserFavorStr(String userFavorStr) {
+		this.userFavorStr = userFavorStr;
 	}
 
 
