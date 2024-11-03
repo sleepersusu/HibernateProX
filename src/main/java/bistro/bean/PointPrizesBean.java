@@ -11,27 +11,26 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "PointPrizes")
 public class PointPrizesBean{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PointPrizes_id")
 	private int PointPrizes_id;
 	
-	@Column(name = "PointPrizes_name")
 	private String pointPrizes_name;
 	
-	@Column(name = "pointPrizes_points")
 	private int pointPrizes_points;
 	
-	@Column(name = "pointPrizes_description")
 	private String pointPrizes_description;
 	
-    @Column(name = "pointPrizes_expiration")
     @Temporal(TemporalType.DATE)
 	private Date pointPrizes_expiration;
-
+    @Transient
+    private String rewardsStatus; 
+    
+    
 	public int getPointPrizes_id() {
 		return PointPrizes_id;
 	}
@@ -71,6 +70,15 @@ public class PointPrizesBean{
 	public void setPointPrizes_expiration(Date pointPrizes_expiration) {
 		this.pointPrizes_expiration = pointPrizes_expiration;
 	}
-    
+	 
+	public String getRewardsStatus() {
+	        // 判斷有效日期是否已過期
+	        Date currentDate = new Date();
+	        if (pointPrizes_expiration != null && pointPrizes_expiration.before(currentDate)) {
+	            return "已過期";
+	        } else {
+	            return "上架中";
+	        }
+	 }
 
 }
