@@ -287,11 +287,11 @@ body .modal .modal-content form textarea {
 									type="text" name="productName" id="productName" value=""
 									required readonly>
 							</div>
-							
+
 							<div class="question">
 								<span class="title">價格</span> <input type="text"
-									id="productPrice" name="productPrice" value=""
-									placeholder="" required aria-required="true" readonly />
+									id="productPrice" name="productPrice" value="" placeholder=""
+									required aria-required="true" readonly />
 							</div>
 
 							<div class="question">
@@ -305,20 +305,20 @@ body .modal .modal-content form textarea {
 									id="totalQuantity" name="totalQuantity" value="" required
 									aria-required="true" readonly />
 							</div>
-							
-							
+
+
 
 							<div class="question">
 								<span class="title">總價格</span> <input type="number"
 									id="totalPrice" name="totalPrice" value="" required
-									aria-required="true"  readonly/>
+									aria-required="true" readonly />
 							</div>
 
 							<div class="question">
 								<span class="title">特殊備註</span> <input type="text"
 									id="specialRequest" name="specialRequest" value="" />
 							</div>
-							
+
 							<div class="question">
 								<label for="createdAt" class="title">建立時間</label> <input
 									type="datetime-local" name="createdAt" id="createdAt" value=""
@@ -350,6 +350,9 @@ body .modal .modal-content form textarea {
 
 							<legend style="margin-bottom: 1rem; font-weight: bold">
 								訂單詳情資訊 </legend>
+
+							<input type="hidden" id="orderDetailsID2" name="orderDetailsID"
+								value="" />
 
 							<div class="question">
 								<span class="title">訂單編號</span> <input type="text" id="orders2"
@@ -390,11 +393,11 @@ body .modal .modal-content form textarea {
 									type="text" name="productName" id="productName2" value=""
 									required readonly>
 							</div>
-							
+
 							<div class="question">
 								<span class="title">價格</span> <input type="text"
-									id="productPrice2" name="productPrice" value=""
-									placeholder="" required aria-required="true" readonly />
+									id="productPrice2" name="productPrice" value="" placeholder=""
+									required aria-required="true" readonly />
 							</div>
 
 							<div class="question">
@@ -408,20 +411,20 @@ body .modal .modal-content form textarea {
 									id="totalQuantity2" name="totalQuantity" value="" required
 									aria-required="true" readonly />
 							</div>
-							
-							
+
+
 
 							<div class="question">
 								<span class="title">總價格</span> <input type="number"
 									id="totalPrice2" name="totalPrice" value="" required
-									aria-required="true"  readonly/>
+									aria-required="true" readonly />
 							</div>
 
 							<div class="question">
 								<span class="title">特殊備註</span> <input type="text"
 									id="specialRequest2" name="specialRequest" value="" />
 							</div>
-							
+
 							<div class="question">
 								<label for="createdAt2" class="title">建立時間</label> <input
 									type="datetime-local" name="createdAt" id="createdAt2" value=""
@@ -564,6 +567,7 @@ body .modal .modal-content form textarea {
 		           //--------------------------------顯示編輯表單預設值----------------------------------------------//
 	      function openEditModal(orderDetails) {
 		    	document.getElementById("addEventModal2").style.display = "block";
+		    	document.getElementById("orderDetailsID2").value =orderDetails.orderDetails_id
 		    	document.getElementById("orders2").value = orderDetails.orders;
 		    	
 		    	

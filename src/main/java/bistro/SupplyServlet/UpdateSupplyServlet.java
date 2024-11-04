@@ -6,6 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -36,10 +39,15 @@ public class UpdateSupplyServlet extends HttpServlet {
             String supplyCountParam = request.getParameter("supplyCount");
             String supplyPriceParam = request.getParameter("supplyPrice");
             String employeeIdParam = request.getParameter("employeeId");
-
+            String createdAt = request.getParameter("createdAt");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+    		LocalDateTime localDateTime = LocalDateTime.parse(createdAt, formatter);
+    		Timestamp timestamp = Timestamp.valueOf(localDateTime);
+    		
+    		
             // 檢查是否所有必要參數都已填寫
             if (supplyIdParam == null || supplyOriIdParam == null || supplyProduct == null ||
-                supplyCountParam == null || supplyPriceParam == null || employeeIdParam == null) {
+                supplyCountParam == null || supplyPriceParam == null || employeeIdParam == null||timestamp==null) {
                 request.setAttribute("errorMessage", "確保Ok");
                 request.getRequestDispatcher("/ShowAllReadSupplyServlet.do").forward(request, response);
                 return;
@@ -53,12 +61,15 @@ public class UpdateSupplyServlet extends HttpServlet {
             int supplyPrice = Integer.parseInt(supplyPriceParam);
             int employeeId = Integer.parseInt(employeeIdParam);
             
+            
+            
             System.out.println("supplyId: " + supplyIdParam);
             System.out.println("supplyOriId: " + supplyOriIdParam);
             System.out.println("supplyProduct: " + supplyProduct);
             System.out.println("supplyCount: " + supplyCountParam);
             System.out.println("supplyPrice: " + supplyPriceParam);
             System.out.println("employeeId: " + employeeIdParam);
+            
 
             // 開啟 Hibernate session
             SessionFactory factory = HibernateUtil.getSessionFactory();
@@ -77,7 +88,8 @@ public class UpdateSupplyServlet extends HttpServlet {
             supplyBean.setSupplyCount(supplyCount);
             supplyBean.setSupplyPrice(supplyPrice);
             supplyBean.setEmployeeBean(employeeService.findEmployeeById(employeeId)); // 確保這不會是 null
-
+            supplyBean.setCreatedAt(timestamp);
+            
             // 更新進貨資料
             boolean isUpdate = service.updateSupply(supplyBean);
 

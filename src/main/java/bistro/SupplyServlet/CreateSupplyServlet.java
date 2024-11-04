@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,45 +23,52 @@ import bistro.util.HibernateUtil;
 
 @WebServlet("/CreateSupplyServlet.do")
 public class CreateSupplyServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SupplyBean supply = new SupplyBean();
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		SupplyBean supply = new SupplyBean();
 
-        // 請求獲取參數
-        int supplyOriId = Integer.parseInt(request.getParameter("supplyOriId"));
-        String supplyProduct = request.getParameter("supplyProduct");
-        int supplyCount = Integer.parseInt(request.getParameter("supplyCount"));
-        int supplyPrice = Integer.parseInt(request.getParameter("supplyPrice"));
-        int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+		// 請求獲取參數
+		int supplyOriId = Integer.parseInt(request.getParameter("supplyOriId"));
+		String supplyProduct = request.getParameter("supplyProduct");
+		int supplyCount = Integer.parseInt(request.getParameter("supplyCount"));
+		int supplyPrice = Integer.parseInt(request.getParameter("supplyPrice"));
+		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+		String createdAt = request.getParameter("createdAt");
 
-        // 設定 SupplyBean 的属性
-        supply.setSupplyProduct(supplyProduct);
-        supply.setSupplyCount(supplyCount);
-        supply.setSupplyPrice(supplyPrice);
-        supply.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+		LocalDateTime localDateTime = LocalDateTime.parse(createdAt, formatter);
+		Timestamp timestamp = Timestamp.valueOf(localDateTime);
 
-        // 獲取 Hibernate Session
-        SessionFactory factory = HibernateUtil.getSessionFactory();
-        Session session = factory.getCurrentSession();
+		// 設定 SupplyBean 的属性
+		supply.setSupplyProduct(supplyProduct);
+		supply.setSupplyCount(supplyCount);
+		supply.setSupplyPrice(supplyPrice);
+		supply.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
-        // 創建物件接住
-        SupplyService supplyService = new SupplyService(session);
-        EmployeeService employeeService = new EmployeeService(session);
-        SupplyOriService supplyOriService = new SupplyOriService(session);
+		// 獲取 Hibernate Session
+		SessionFactory factory = HibernateUtil.getSessionFactory();
+		Session session = factory.getCurrentSession();
 
-        // 查找相關的 EmployeeBean 和 SupplyOriBean
-        EmployeeBean employee = employeeService.findEmployeeById(employeeId);
-        SupplyOriBean supplyOri = supplyOriService.findSupplyOriById(supplyOriId);
+		// 創建物件接住
+		SupplyService supplyService = new SupplyService(session);
+		EmployeeService employeeService = new EmployeeService(session);
+		SupplyOriService supplyOriService = new SupplyOriService(session);
 
-        // 設定關聯對象
-        supply.setEmployeeBean(employee);
-        supply.setSupplyOriBean(supplyOri);
+		// 查找相關的 EmployeeBean 和 SupplyOriBean
+		EmployeeBean employee = employeeService.findEmployeeById(employeeId);
+		SupplyOriBean supplyOri = supplyOriService.findSupplyOriById(supplyOriId);
 
-        // 調用方法保存
-        supplyService.createSupply(supply);
+		// 設定關聯對象
+		supply.setEmployeeBean(employee);
+		supply.setSupplyOriBean(supplyOri);
+		supply.setCreatedAt(timestamp);
 
-        // 回到首頁servlet.do
-        response.sendRedirect("ShowAllReadSupplyServlet.do");
-    }
+		// 調用方法保存
+		supplyService.createSupply(supply);
+
+		// 回到首頁servlet.do
+		response.sendRedirect("ShowAllReadSupplyServlet.do");
+	}
 }
