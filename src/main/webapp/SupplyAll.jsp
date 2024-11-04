@@ -168,7 +168,8 @@ body .modal .modal-content form textarea {
 								                    supplyProduct: "${item.supplyProduct}",
 								                    supplyCount: "${item.supplyCount}",
 								                    supplyPrice: "${item.supplyPrice}",
-								                    employeeId: "${item.employeeBean.employeeId}" 
+								                    employeeId: "${item.employeeBean.employeeId}", 
+								                    createdAt:"${item.createdAt}"
 								                })'>編輯</button>
 								            <form 
 								                action="DeleteSupplyServlet.do" 
@@ -278,6 +279,12 @@ body .modal .modal-content form textarea {
 									required
 									aria-required="true" />
 							</div>
+							
+							<div class="question">
+								<span class="title">建立時間</span>  <input
+									type="datetime-local" name="createdAt" id="" value=""
+									required step=60>
+							</div>
 
 							
 						</fieldset>
@@ -383,6 +390,12 @@ body .modal .modal-content form textarea {
 									required
 									aria-required="true" />
 							</div>
+							
+							<div class="question">
+								<label for="createdAt" class="title">建立時間</label> <input
+									type="datetime-local" name="createdAt" id="createdAt" value=""
+									required step=60>
+							</div>
 
 							
 							
@@ -441,7 +454,7 @@ body .modal .modal-content form textarea {
     	    document.getElementById("supplyCount").value = supply.supplyCount;
     	    document.getElementById("supplyPrice").value = supply.supplyPrice;
     	    document.getElementById("employeeId").value = supply.employeeId;
-    	    
+    	    document.getElementById("createdAt").value = supply.createdAt;
     	    }	      
 	      
       

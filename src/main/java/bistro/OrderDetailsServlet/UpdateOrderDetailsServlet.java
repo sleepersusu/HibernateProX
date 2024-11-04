@@ -64,7 +64,7 @@ public class UpdateOrderDetailsServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
-
+		int orderDetailsID =Integer.parseInt(request.getParameter("orderDetailsID"));//
 		int orders = Integer.parseInt(request.getParameter("orders"));//訂單號碼
 		int productid = Integer.parseInt(request.getParameter("productid")); //商品號碼
 		String productName =request.getParameter("productName");
@@ -93,6 +93,7 @@ public class UpdateOrderDetailsServlet extends HttpServlet {
 		menuBean.setProductPrice(productPrice);
 		menuBean.setMenuid(productid);
 
+		updateBean.setOrderDetails_id(orderDetailsID);
 		updateBean.setOrders(ordersBean);
 		updateBean.setProduct(menuBean);
 
