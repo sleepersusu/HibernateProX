@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Events</title>
+<title>訂位管理 - DINEEASE餐廳管理系統</title>
 
 <link rel="icon"
 	href="${pageContext.request.contextPath}/images/favicon.ico" />
@@ -99,111 +99,7 @@ body .modal .modal-content form textarea {
 
 
 	<div id="page">
-		<div id="left">
-			<nav id="sidebar">
-				<div id="logo">
-					<img src="${pageContext.request.contextPath}/images/logo.jpg"
-						alt="商店logo" />
-				</div>
-				<div id="sidebox">
-
-
-					<div id="menubox">
-						<ul class="menu">
-							<li class="menuitem"><a href="./index.html"> <i
-									class="fa-solid fa-house" style="color: #ffffff"></i> 首頁
-							</a></li>
-
-
-							<li class="menuitem"><a href="Menu.html"> <i
-									class="fa-solid fa-whiskey-glass"></i> 商品管理
-							</a></li>
-
-							<li class="menuitem"><a href="#"> <i
-									class="fa-solid fa-address-card"></i> 會員管理
-							</a>
-								<ul class="dropdown">
-									<li><a href="Member_info.html"> 會員資訊 </a></li>
-									<li><a href=""> 會員優惠 </a></li>
-								</ul></li>
-
-							<li class="menuitem"><a href="Reservations.html"> <i
-									class="fa-regular fa-calendar-check"></i> 訂位管理
-							</a>
-								<ul class="dropdown">
-									<li>
-										<!--下拉選項內容 li裡放a標籤-->
-									</li>
-								</ul></li>
-
-							<li class="menuitem"><a href="Orders.html"> <i
-									class="fa-regular fa-clipboard"></i> 訂單管理
-							</a> <!--下拉選項內容開始-->
-								<ul class="dropdown">
-									<li>
-										<!--下拉選項內容 li裡放a標籤-->
-									</li>
-								</ul></li>
-
-							<li class="menuitem"><a
-								href="/Test/TestShowAllCampaignServlet.do"> <i
-									class="fa-regular fa-face-laugh-squint"></i> 活動管理
-							</a> <!--下拉選項內容開始-->
-								<ul class="dropdown">
-									<li>
-										<!--下拉選項內容 li裡放a標籤-->
-									<li><a href="/Test/TestShowAllCampaignServlet.do">
-											活動資訊 </a></li>
-									<li><a href="/Test/ShowAllPrizeServlet.do"> 獎品資訊 </a></li>
-								</ul></li>
-
-							<li class="menuitem"><a href="Supply.html"> <i
-									class="fa-solid fa-cart-flatbed"></i> 採購管理
-							</a> <!--下拉選項內容開始-->
-								<ul class="dropdown">
-									<li>
-										<!--下拉選項內容 li裡放a標籤-->
-									</li>
-								</ul></li>
-
-							<li class="menuitem"><a href="Reviews.html"> <i
-									class="fa-solid fa-comment"></i> 評論管理
-							</a> <!--下拉選項內容開始-->
-								<ul class="dropdown">
-									<li>
-										<!--下拉選項內容 li裡放a標籤-->
-									</li>
-								</ul></li>
-
-							<li class="menuitem"><a href="Website.html"> <i
-									class="fa-solid fa-desktop"></i> 網站管理
-							</a> <!--下拉選項內容開始-->
-								<ul class="dropdown">
-									<li>
-										<!--下拉選項內容 li裡放a標籤-->
-									</li>
-								</ul></li>
-
-							<li class="menuitem"><a href="Users.html"> <i
-									class="fa-solid fa-user"></i> 員工系統
-							</a> <!--下拉選項內容開始-->
-								<ul class="dropdown">
-									<li>
-										<!--下拉選項內容 li裡放a標籤-->
-									</li>
-								</ul></li>
-
-						</ul>
-						<!-- menu 結束-->
-					</div>
-					<!-- menubox 結束-->
-				</div>
-				<!-- sidebox 結束-->
-			</nav>
-			<!-- sidebar 側邊欄 結束-->
-
-		</div>
-		<!-- left 結束-->
+			<%@ include file="nav.jsp"%>
 
 		<div id="right">
 			<header>
@@ -211,7 +107,7 @@ body .modal .modal-content form textarea {
 			</header>
 
 			<main>
-				<h2>獎品管理</h2>
+				<h2>訂位管理</h2>
 				<section id="workspace">
 					<div>
 						<button type="submit" class="dataButton" id="addData">
@@ -237,7 +133,7 @@ body .modal .modal-content form textarea {
 									<th>桌號</th>									
 									<th>訂位狀況</th>
 									<th>備註</th>
-									<th>建立時間</th>
+									
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -267,7 +163,7 @@ body .modal .modal-content form textarea {
 									<td><%=prize.getSeatsId()%></td>
 									<td><%=prize.getReservationStatus()%></td>
 									<td><%=prize.getNotes()%></td>
-									<td><%=prize.getCreatedAt()%></td>
+									
 									<td>
 										<button type="button" id="edit"
 											onclick='openEditModal({
@@ -379,7 +275,7 @@ body .modal .modal-content form textarea {
 					<form action="ReservationUpdateServlet.do" method="post" id="dataForm">
 						<fieldset>
 							<!-- 區域1 -->
-							<input type="text" name="reservationId" id="reservationId" value="">
+							<input type="hidden" name="reservationId" id="reservationId" value="">
 							
 							<div class="question">
 								<span class="title">姓名</span> <input type="text" id="customerName"

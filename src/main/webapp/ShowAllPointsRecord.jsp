@@ -178,7 +178,7 @@ body .modal .modal-content form textarea {
 									<td><%=record.getPointsRecords_id()%></td>
 									
 									<% MembersDetailBean membersDetailBean = record.getMembersDetail(); %>
-									<td><%=membersDetailBean.getMembers_id()%></td>
+									<td><%=membersDetailBean.getMembersDetail_id()%></td>
 									<td><%=membersDetailBean.getMembersD_name()%></td>								
 									
 									<% PointPrizesBean pointPrizesBean = record.getPointPrizes(); %>
@@ -189,7 +189,7 @@ body .modal .modal-content form textarea {
 									<td>
 										<button type="button" id="edit"
 											onclick='openEditModal({
-										        members_id: "<%= membersDetailBean.getMembers_id() %>",
+										        members_id: "<%= membersDetailBean.getMembersDetail_id() %>",
 										        prize_id: "<%= pointPrizesBean.getPointPrizes_id() %>",
 										        records_date: "<%=record.getRecords_date()%>",
 										        PointsRecords_id: "<%=record.getPointsRecords_id()%>"
